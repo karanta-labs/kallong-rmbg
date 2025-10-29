@@ -37,9 +37,9 @@ class ImageProcessor:
     
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     
-    @app.route("/remove-bg", methods=["GET", "POST"]) 
+    @app.route("/api/remove-bg", methods=["GET", "POST"]) 
     def remove_bg():
         processor = ImageProcessor()
         
