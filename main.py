@@ -61,19 +61,11 @@ def create_app():
     
     return app
 
-def main():
-    """Main application entry point"""
-    application = create_app()
 
-    # Get port from the environment variable or use default
-    server_port = int(os.environ.get("PORT", 4000))
+app = create_app()
 
-    # Run the Flask application
-    application.run(
-        host="0.0.0.0",
-        port=server_port,
-        debug=False
-    )
+# Get port from the environment variable or use default
+server_port = int(os.environ.get("PORT", 4000))
 
 if __name__ == "__main__":
-    main()
+    app.run(host="0.0.0.0", port=server_port, debug=False)
