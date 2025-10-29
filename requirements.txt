@@ -1,0 +1,5 @@
+Flask==3.1.2
+flask-cors==6.0.1
+onnxruntime==1.23.2
+rembg==2.0.67
+pillow==12.0.0
