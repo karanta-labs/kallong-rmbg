@@ -44,6 +44,9 @@ def create_app():
     ENV = os.environ.get("FLASK_ENV", "development") 
     PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
 
+    print(f"[DEBUG] ENV: {ENV}")
+    print(f"[DEBUG] PROD_URL: {PROD_URL}")
+
     if ENV == "production" and PROD_URL:
         ALLOWED_ORIGINS = [PROD_URL]
     else:
