@@ -60,8 +60,11 @@ def create_app():
     CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}}, methods=["GET", "POST", "OPTIONS"],
          allow_headers=["Content-Type"])
     
-    @app.route("/api/remove-bg", methods=["GET", "POST"]) 
+    @app.route("/api/remove-bg", methods=["GET", "POST", "OPTIONS"]) 
     def remove_bg():
+        if request.method == "OPTIONS":
+            return "", 204
+            
         processor = ImageProcessor()
         
         if request.method == "POST":
