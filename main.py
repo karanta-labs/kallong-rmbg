@@ -7,7 +7,7 @@ from rembg import remove, new_session
 from PIL import Image
 from dotenv import load_dotenv
 
-my_session = new_session("u2netp") 
+my_session = new_session("silueta") 
 
 class ImageProcessor:
     def __init__(self):
