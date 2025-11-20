@@ -56,8 +56,8 @@ def create_app():
     #     if PROD_URL:
     #          ALLOWED_ORIGINS.append(PROD_URL)
 
-    ALLOWED_ORIGINS = ["http://localhost:3000", "https://localhost:3000", "http://127.0.0.1:3000", "https://what-to-wear-tomorrow.vercel.app"]
-    CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}}, methods=["GET", "POST", "OPTIONS"],
+    ALLOWED_ORIGINS = ["https://what-to-wear-tomorrow.vercel.app"]
+    CORS(app, resources={r"/api/*": {"origins": "*"}}, methods=["GET", "POST", "OPTIONS"],
          allow_headers=["Content-Type"])
     
     @app.route("/api/remove-bg", methods=["GET", "POST", "OPTIONS"]) 
