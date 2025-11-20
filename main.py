@@ -54,9 +54,9 @@ def create_app():
     #     if PROD_URL:
     #          ALLOWED_ORIGINS.append(PROD_URL)
 
-    ALLOWED_ORIGINS = ["https://what-to-wear-tomorrow.vercel.app"]
+    ALLOWED_ORIGINS = ["https://localhost:3000", "http://localhost:3000",  "http://127.0.0.1:3000", "https://what-to-wear-tomorrow.vercel.app"]
     app = Flask(__name__)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
     
     @app.route("/api/remove-bg", methods=["GET", "POST", "OPTIONS"]) 
     def remove_bg():
