@@ -43,7 +43,7 @@ def create_app():
     app = Flask(__name__)
     ENV = os.environ.get("FLASK_ENV", "development") 
     PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
-    
+
     if ENV == "production" and PROD_URL:
         ALLOWED_ORIGINS = [PROD_URL]
     else:
@@ -54,7 +54,8 @@ def create_app():
         if PROD_URL:
              ALLOWED_ORIGINS.append(PROD_URL)
 
-    CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
+    CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}}, methods=["GET", "POST", "OPTIONS"],
+         allow_headers=["Content-Type"])
     
     @app.route("/api/remove-bg", methods=["GET", "POST"]) 
     def remove_bg():
