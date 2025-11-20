@@ -39,24 +39,24 @@ class ImageProcessor:
         
     
 def create_app():
-    load_dotenv() 
     app = Flask(__name__)
-    ENV = os.environ.get("FLASK_ENV", "development") 
-    PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
 
-    print(f"[DEBUG] ENV: {ENV}")
-    print(f"[DEBUG] PROD_URL: {PROD_URL}")
+    # load_dotenv() 
+    # ENV = os.environ.get("FLASK_ENV", "development") 
+    # PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
+    # print(f"[DEBUG] ENV: {ENV}")
+    # print(f"[DEBUG] PROD_URL: {PROD_URL}")
+    # if ENV == "production" and PROD_URL:
+    #     ALLOWED_ORIGINS = [PROD_URL]
+    # else:
+    #     ALLOWED_ORIGINS = [
+    #         "http://localhost:3000",
+    #         "http://127.0.0.1:3000",
+    #     ]
+    #     if PROD_URL:
+    #          ALLOWED_ORIGINS.append(PROD_URL)
 
-    if ENV == "production" and PROD_URL:
-        ALLOWED_ORIGINS = [PROD_URL]
-    else:
-        ALLOWED_ORIGINS = [
-            "http://localhost:3000",
-            "http://127.0.0.1:3000",
-        ]
-        if PROD_URL:
-             ALLOWED_ORIGINS.append(PROD_URL)
-
+    ALLOWED_ORIGINS = ["http://localhost:3000", "https://localhost:3000", "http://127.0.0.1:3000", "https://what-to-wear-tomorrow.vercel.app"]
     CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}}, methods=["GET", "POST", "OPTIONS"],
          allow_headers=["Content-Type"])
     
@@ -64,7 +64,7 @@ def create_app():
     def remove_bg():
         if request.method == "OPTIONS":
             return "", 204
-            
+
         processor = ImageProcessor()
         
         if request.method == "POST":
