@@ -3,8 +3,11 @@ import os
 import base64
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from rembg import remove
+from rembg import remove, new_session
 from PIL import Image
+from dotenv import load_dotenv
+
+my_session = new_session("u2netp") 
 
 class ImageProcessor:
     def __init__(self):
@@ -14,7 +17,7 @@ class ImageProcessor:
         try:
             # Open and process the uploaded image
             original_image = Image.open(uploaded_file.stream)
-            processed_image = remove(original_image)
+            processed_image = remove(original_image, my_session)
 
             # Convert processed image to png(base64) for web display
             buffer = BytesIO()
@@ -36,8 +39,22 @@ class ImageProcessor:
         
     
 def create_app():
+    load_dotenv() 
     app = Flask(__name__)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    ENV = os.environ.get("FLASK_ENV", "development") 
+    PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
+    
+    if ENV == "production" and PROD_URL:
+        ALLOWED_ORIGINS = [PROD_URL]
+    else:
+        ALLOWED_ORIGINS = [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+        ]
+        if PROD_URL:
+             ALLOWED_ORIGINS.append(PROD_URL)
+
+    CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
     
     @app.route("/api/remove-bg", methods=["GET", "POST"]) 
     def remove_bg():
