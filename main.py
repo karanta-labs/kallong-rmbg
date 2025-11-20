@@ -39,8 +39,6 @@ class ImageProcessor:
         
     
 def create_app():
-    app = Flask(__name__)
-
     # load_dotenv() 
     # ENV = os.environ.get("FLASK_ENV", "development") 
     # PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
@@ -57,13 +55,11 @@ def create_app():
     #          ALLOWED_ORIGINS.append(PROD_URL)
 
     ALLOWED_ORIGINS = ["https://what-to-wear-tomorrow.vercel.app"]
+    app = Flask(__name__)
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     @app.route("/api/remove-bg", methods=["GET", "POST", "OPTIONS"]) 
     def remove_bg():
-        if request.method == "OPTIONS":
-            return "", 204
-
         processor = ImageProcessor()
         
         if request.method == "POST":
