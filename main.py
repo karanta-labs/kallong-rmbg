@@ -52,9 +52,10 @@ def create_app():
         ]
         if PROD_URL:
              ALLOWED_ORIGINS.append(PROD_URL)
-
-    #ALLOWED_ORIGINS = ["https://localhost:3000", "http://localhost:3000",  "http://127.0.0.1:3000", "https://what-to-wear-tomorrow.vercel.app"]
    
+    print(f"[DEBUG] FLASK_ENV: {ENV}")
+    print(f"[DEBUG] ALLOWED_FRONTEND_URL: {PROD_URL}")
+    print(f"[DEBUG] All env vars: {dict(os.environ)}")
     app = Flask(__name__)
     CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
     
@@ -79,7 +80,6 @@ def create_app():
             return jsonify({"image": processor.get_processed_data()})   
     
     return app
-
 
 app = create_app()
 
