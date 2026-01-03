@@ -7,6 +7,7 @@ from rembg import remove, new_session
 from PIL import Image
 from dotenv import load_dotenv
 
+load_dotenv() 
 my_session = new_session("silueta") 
 
 class ImageProcessor:
@@ -39,22 +40,21 @@ class ImageProcessor:
         
     
 def create_app():
-    # load_dotenv() 
-    # ENV = os.environ.get("FLASK_ENV", "development") 
-    # PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
-    # print(f"[DEBUG] ENV: {ENV}")
-    # print(f"[DEBUG] PROD_URL: {PROD_URL}")
-    # if ENV == "production" and PROD_URL:
-    #     ALLOWED_ORIGINS = [PROD_URL]
-    # else:
-    #     ALLOWED_ORIGINS = [
-    #         "http://localhost:3000",
-    #         "http://127.0.0.1:3000",
-    #     ]
-    #     if PROD_URL:
-    #          ALLOWED_ORIGINS.append(PROD_URL)
+    ENV = os.environ.get("FLASK_ENV", "development") #key, default
+    PROD_URL = os.environ.get("ALLOWED_FRONTEND_URL")
+    
+    if ENV == "production" and PROD_URL:
+        ALLOWED_ORIGINS = [PROD_URL]
+    else:
+        ALLOWED_ORIGINS = [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+        ]
+        if PROD_URL:
+             ALLOWED_ORIGINS.append(PROD_URL)
 
-    ALLOWED_ORIGINS = ["https://localhost:3000", "http://localhost:3000",  "http://127.0.0.1:3000", "https://what-to-wear-tomorrow.vercel.app"]
+    #ALLOWED_ORIGINS = ["https://localhost:3000", "http://localhost:3000",  "http://127.0.0.1:3000", "https://what-to-wear-tomorrow.vercel.app"]
+   
     app = Flask(__name__)
     CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
     
@@ -83,7 +83,6 @@ def create_app():
 
 app = create_app()
 
-# Get port from the environment variable or use default
 server_port = int(os.environ.get("PORT", 4000))
 
 if __name__ == "__main__":
