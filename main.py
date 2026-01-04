@@ -1,11 +1,9 @@
-from io import BytesIO
 import os
-import base64
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from PIL import Image
 from dotenv import load_dotenv
 from image import image_bp
+from auth import auth_bp 
 
 load_dotenv() 
 
@@ -26,7 +24,7 @@ def create_app():
     app = Flask(__name__)
     CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
     
-    #app.register_blueprint(auth_bp)
+    app.register_blueprint(auth_bp)
     app.register_blueprint(image_bp)
     return app
 

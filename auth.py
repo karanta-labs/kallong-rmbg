@@ -15,14 +15,13 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 def delete_image_in_storage(lookbook_id: str):
     try:
         bucket_name = os.environ.get("SUPABASE_STORAGE_BUCKET")
-        
+
         if not bucket_name:
             print("Error: SUPABASE_STORAGE_BUCKET not set")
             return False
         
         # 모든 파일 조회
         files = supabase.storage.from_(bucket_name).list(lookbook_id)
-        
         if not files or len(files) == 0:
             return True
         
@@ -41,7 +40,7 @@ def delete_all_lookbooks(user_id: str) -> bool:
         # 유저의 모든 룩북 조회
         response = supabase.table('lookbook').select('id').eq('author_id', user_id).execute()
         lookbooks = response.data
-        
+
         if not lookbooks or len(lookbooks) == 0:
             print("No lookbooks found for user")
             return True
@@ -62,13 +61,16 @@ def delete_all_lookbooks(user_id: str) -> bool:
 
 @auth_bp.route("/delete-user", methods=["POST", "OPTIONS"]) 
 def delete_user():
+    if request.method == "OPTIONS":
+        return "", 200
+
     try:
         data = request.get_json()
         if not data:
             return jsonify({"error": "No JSON data provided"}), 400
         
         user_id = data.get('user_id')
-        
+
         if not user_id:
             return jsonify({"error": "user_id is required"}), 400
         
